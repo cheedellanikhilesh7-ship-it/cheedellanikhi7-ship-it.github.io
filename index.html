@@ -35,7 +35,7 @@
     <div class="content-grid"><section id="matchesSection"><div class="section-head"><div><h2 id="matchHeading">LIVE & UPCOMING</h2><p id="matchSub">Don't miss a moment</p></div><button class="view-all" id="resetFilter">VIEW ALL &nbsp;→</button></div><div class="matches" id="matches"></div></section>
       <aside class="side-col"><section class="panel player-panel" id="player"><div class="panel-title"><h3>ARENA PLAYER</h3><span class="tag-live">● DEMO</span></div><div class="player-box"><button class="play" aria-label="Play demo stream">▶</button></div><p class="player-note" id="playerNote">Select a match to see its authorized stream options.</p><div class="player-controls"><select id="streamSelect" aria-label="Select stream"><option>Sample stream · preview only</option><option>Authorized feed placeholder</option></select><button id="selectStream">SELECT</button></div></section>
       <section class="panel"><div class="panel-title"><h3>FEATURED CHANNELS</h3><a href="#" id="showChannels">ALL CHANNELS →</a></div><div class="channel"><div class="channel-logo">LA<br>1</div><div class="channel-info"><strong>LiveArena One</strong><small>Football · Main Event</small></div><span class="onair">● ON AIR</span></div><div class="channel"><div class="channel-logo">LA<br>2</div><div class="channel-info"><strong>LiveArena Courtside</strong><small>Basketball · Courts</small></div><span class="onair">● ON AIR</span></div><div class="channel"><div class="channel-logo">LA<br>3</div><div class="channel-info"><strong>LiveArena Cricket</strong><small>Cricket · Highlights</small></div><span style="color:#999;font-size:9px">SAMPLE</span></div></section></aside></div>
-    <div class="disclaimer">Football scores and fixtures and Formula 1 race schedules are provided by API-Sports. LiveArena does not provide match video. Watch options are placeholders and require an authorized broadcast source.</div>
+    <div class="disclaimer">Football scores and fixtures are provided by API-Sports. Formula 1 calendar data is provided by <a href="https://api.jolpi.ca/docs/" target="_blank" rel="noopener">Jolpica-F1</a> under CC BY-NC-SA 4.0 for non-commercial use. LiveArena does not provide match video. Watch options are placeholders and require an authorized broadcast source.</div>
     <footer class="footer"><span>© 2026 LiveArena · Your home for matchday</span><span>Match data refreshes about once an hour on the free API plan</span></footer>
   </main>
 </div>
@@ -230,7 +230,7 @@
     try {
       const response = await fetch(F1_URL, { cache: "no-store" });
       const data = await response.json();
-      if (!response.ok || data.error) throw new Error("Formula 1 data isn’t available yet. Check API-Sports Formula 1 access and try Refresh.");
+      if (!response.ok || data.error) throw new Error("The Formula 1 calendar is unavailable right now. Try Refresh later.");
       f1Fixtures = (data.races || []).map(apiF1Event);
       f1Error = "";
     } catch (error) {
