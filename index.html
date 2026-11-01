@@ -39,9 +39,11 @@
     <footer class="footer"><span>© 2026 LiveArena · Your home for matchday</span><span>Match data refreshes about once an hour on the free API plan</span></footer>
   </main>
 </div>
-<div class="admin" id="admin"><div class="admin-panel"><div class="admin-top"><h2>ADMIN DASHBOARD</h2><button class="close" id="closeAdmin">✕</button></div><p class="admin-blurb">Manage local demo fixtures and authorized source placeholders. Added demo matches are saved only in this browser.</p><div class="admin-metrics"><div class="metric"><strong id="metricLive">0</strong><small>LIVE MATCHES</small></div><div class="metric"><strong id="metricUpcoming">0</strong><small>UPCOMING</small></div><div class="metric"><strong>3</strong><small>CHANNELS</small></div></div><form class="admin-form" id="addForm"><label>HOME TEAM</label><input required name="home" placeholder="e.g. North City"><label>AWAY TEAM</label><input required name="away" placeholder="e.g. United"><label>COMPETITION</label><select name="leagueId"><option value="253">MLS</option><option value="307">Saudi Pro League</option><option value="140">LaLiga</option><option value="2">UEFA Champions League</option></select><label>KICKOFF / STATUS</label><select name="status"><option value="upcoming">Upcoming · 20:30</option><option value="live">Live · 0–0</option></select><label>AUTHORIZED STREAM LABEL</label><input name="stream" placeholder="Leave blank for sample placeholder"><button class="primary">＋ &nbsp; ADD SAMPLE MATCH</button><div id="notice" class="notice">Sample match added and saved in this browser.</div></form><div class="disclaimer">LiveArena requires valid rights for every video source.</div></div></div>
+<div class="admin" id="admin"><div class="admin-panel"><div class="admin-top"><h2>ADMIN DASHBOARD</h2><button class="close" id="closeAdmin">✕</button></div><p class="admin-blurb">Only the site owner can sign in. Matches you add here are saved for all visitors.</p><div id="adminLogin"><form class="admin-form" id="adminLoginForm"><label>YOUR PRIVATE ADMIN PASSWORD</label><input required name="password" type="password" autocomplete="current-password" placeholder="Enter your password"><button class="primary">SIGN IN</button><div id="loginNotice" class="notice"></div></form></div><div id="adminTools" hidden><button class="close" id="adminLogout">SIGN OUT</button><div class="admin-metrics"><div class="metric"><strong id="metricLive">0</strong><small>LIVE MATCHES</small></div><div class="metric"><strong id="metricUpcoming">0</strong><small>UPCOMING</small></div><div class="metric"><strong>4</strong><small>COMPETITIONS</small></div></div><form class="admin-form" id="addForm"><label>HOME TEAM</label><input required name="home" maxlength="80" placeholder="e.g. Real Madrid"><label>AWAY TEAM</label><input required name="away" maxlength="80" placeholder="e.g. Barcelona"><label>COMPETITION</label><select name="leagueId"><option value="140">LaLiga</option><option value="2">UEFA Champions League</option><option value="253">MLS</option><option value="307">Saudi Pro League</option></select><label>MATCH DATE AND TIME</label><input required name="date" type="datetime-local"><button class="primary">＋ &nbsp; ADD MATCH FOR EVERYONE</button><div id="notice" class="notice"></div></form><h3 style="margin-top:22px">YOUR ADDED MATCHES</h3><div id="adminMatchList" class="reminders-list">Loading…</div></div><div class="disclaimer">Video sources must be officially authorized. Keep this password private.</div></div></div>
 <script>
   const API_URL = "https://rough-meadow-9399.cheedellanikhilesh7.workers.dev/fixtures";
+  const ADMIN_URL = "https://rough-meadow-9399.cheedellanikhilesh7.workers.dev/admin";
+  let adminToken = sessionStorage.getItem("livearena-admin-token") || "";
   const LEAGUE_IDS = new Set(["2", "140", "253", "307"]);
   const LIVE_CODES = new Set(["1H", "HT", "2H", "ET", "BT", "P", "LIVE"]);
   let apiFixtures = [], demoFixtures = [], fixtures = [];
@@ -221,26 +223,65 @@
   document.getElementById("refreshPage").onclick = loadFixtures;
   document.getElementById("scrollMatches").onclick = () => document.getElementById("matchesSection").scrollIntoView({ behavior: "smooth" });
   document.getElementById("watchFeatured").onclick = () => { if (fixtures.length) selectMatch(fixtures[0]); };
-  document.getElementById("openAdmin").onclick = () => document.getElementById("admin").classList.add("open");
+  async function adminRequest(path, options = {}) {
+    const response = await fetch(ADMIN_URL + path, {
+      ...options,
+      headers: { "Content-Type": "application/json", ...(adminToken ? { Authorization: "Bearer " + adminToken } : {}), ...(options.headers || {}) }
+    });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || "Could not complete that admin action.");
+    return data;
+  }
+  function showAdminTools(signedIn) {
+    document.getElementById("adminLogin").hidden = signedIn;
+    document.getElementById("adminTools").hidden = !signedIn;
+  }
+  async function loadAdminMatches() {
+    const box = document.getElementById("adminMatchList");
+    try {
+      const data = await adminRequest("/matches");
+      box.innerHTML = data.matches.length ? data.matches.map(m => '<span class="reminder-chip">' + escapeHtml(m.home) + ' vs ' + escapeHtml(m.away) + ' · ' + escapeHtml(m.league) + '<button data-admin-remove="' + escapeHtml(m.id) + '">REMOVE</button></span>').join("") : '<span class="no-reminders">No matches added by you yet.</span>';
+      box.querySelectorAll("[data-admin-remove]").forEach(button => button.onclick = async () => {
+        button.disabled = true;
+        try { await adminRequest("/matches/" + encodeURIComponent(button.dataset.adminRemove), { method: "DELETE" }); await loadFixtures(); await loadAdminMatches(); }
+        catch (error) { alert(error.message); button.disabled = false; }
+      });
+    } catch (error) {
+      box.textContent = error.message;
+      if (/sign in/i.test(error.message)) { adminToken = ""; sessionStorage.removeItem("livearena-admin-token"); showAdminTools(false); }
+    }
+  }
+  document.getElementById("adminLoginForm").onsubmit = async event => {
+    event.preventDefault();
+    const notice = document.getElementById("loginNotice"), password = new FormData(event.currentTarget).get("password");
+    notice.classList.remove("show");
+    try {
+      const result = await adminRequest("/login", { method: "POST", body: JSON.stringify({ password }) });
+      adminToken = result.token; sessionStorage.setItem("livearena-admin-token", adminToken);
+      event.currentTarget.reset(); showAdminTools(true); await loadAdminMatches();
+    } catch (error) { notice.textContent = error.message; notice.classList.add("show"); }
+  };
+  document.getElementById("adminLogout").onclick = () => { adminToken = ""; sessionStorage.removeItem("livearena-admin-token"); showAdminTools(false); };
+  document.getElementById("openAdmin").onclick = async () => {
+    document.getElementById("admin").classList.add("open");
+    if (adminToken) { showAdminTools(true); await loadAdminMatches(); } else showAdminTools(false);
+  };
   document.getElementById("closeAdmin").onclick = () => document.getElementById("admin").classList.remove("open");
   document.getElementById("admin").onclick = e => { if (e.target.id === "admin") e.currentTarget.classList.remove("open"); };
   document.getElementById("menu").onclick = () => document.getElementById("nav").classList.toggle("open");
   document.getElementById("showChannels").onclick = e => { e.preventDefault(); document.querySelector(".side-col .panel:nth-child(2)").scrollIntoView({ behavior: "smooth" }); };
   document.getElementById("selectStream").onclick = () => { document.getElementById("playerNote").textContent = "Preview only · A licensed stream URL is required to play video."; };
-  document.getElementById("addForm").onsubmit = e => {
+  document.getElementById("addForm").onsubmit = async e => {
     e.preventDefault();
-    const d = new FormData(e.target), live = d.get("status") === "live", leagueId = String(d.get("leagueId"));
-    const leagueName = ({ "2": "UEFA Champions League", "140": "LaLiga", "253": "MLS", "307": "Saudi Pro League" })[leagueId];
-    demoFixtures.unshift({
-      sport: "Football", leagueId, home: d.get("home"), away: d.get("away"), h: "⚫", a: "🔴",
-      league: leagueName + " · LIVEARENA SAMPLE", status: live ? "live" : "upcoming",
-      score: live ? "0 – 0" : "", time: live ? "0′" : "Today · 20:30",
-      channel: d.get("stream") || "Authorized feed placeholder"
-    });
-    rebuildFixtures();
-    try { localStorage.setItem("livearena-fixtures", JSON.stringify(demoFixtures)); } catch {}
-    render(); document.getElementById("notice").classList.add("show"); e.target.reset();
+    const notice = document.getElementById("notice"), d = new FormData(e.currentTarget);
+    notice.textContent = "Saving match for everyone…"; notice.classList.add("show");
+    try {
+      await adminRequest("/matches", { method: "POST", body: JSON.stringify({ home: d.get("home"), away: d.get("away"), leagueId: d.get("leagueId"), date: new Date(d.get("date")).toISOString() }) });
+      notice.textContent = "Match added and shared with everyone."; e.currentTarget.reset();
+      await loadFixtures(); await loadAdminMatches();
+    } catch (error) { notice.textContent = error.message; }
   };
+  showAdminTools(false);
   renderReminders(); render(); loadFixtures();
   setInterval(loadFixtures, 60 * 60 * 1000);
 </script></body></html>
