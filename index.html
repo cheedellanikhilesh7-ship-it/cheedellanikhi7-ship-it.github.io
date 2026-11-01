@@ -29,24 +29,25 @@
   <main class="wrap">
     <div class="ticker"><span class="dot"></span><em>LIVE</em> &nbsp; MATCHDAY CENTER <span class="sep">/</span> Scores and fixtures <span class="sep">/</span> <span id="dataStatus">Connecting to match data…</span></div>
     <section class="hero"><div class="hero-copy"><div class="eyebrow"><span class="live-pill">LIVE</span> FEATURED MATCH · FOOTBALL</div><h1>THE GAME<br>IS <span>ON.</span></h1><p>Every moment. Every match. All in one place.</p><div class="hero-actions"><button class="primary" id="watchFeatured">▶ &nbsp; WATCH FEATURED</button><button class="secondary" id="scrollMatches">VIEW ALL MATCHES &nbsp; ↓</button></div></div><div class="hero-art"><div class="arena"></div><div class="ball">⚽</div><div class="hero-stat"><strong>LIVE NOW</strong>MADE FOR MATCHDAY</div></div></section>
-    <div class="section-head"><div><h2>EXPLORE COMPETITIONS</h2><p>Follow your selected football leagues</p></div></div>
-    <div class="sports" id="sports"><button class="sport active" data-league="All"><span class="emoji">◈</span>All competitions</button><button class="sport" data-league="253"><span class="emoji">⚽</span>MLS</button><button class="sport" data-league="307"><span class="emoji">⚽</span>Saudi Pro League</button><button class="sport" data-league="140"><span class="emoji">⚽</span>LaLiga</button><button class="sport" data-league="2"><span class="emoji">🏆</span>Champions League</button></div>
+    <div class="section-head"><div><h2>EXPLORE COMPETITIONS</h2><p>Follow your selected football leagues and Formula 1</p></div></div>
+    <div class="sports" id="sports"><button class="sport active" data-league="All"><span class="emoji">◈</span>All competitions</button><button class="sport" data-league="253"><span class="emoji">⚽</span>MLS</button><button class="sport" data-league="307"><span class="emoji">⚽</span>Saudi Pro League</button><button class="sport" data-league="140"><span class="emoji">⚽</span>LaLiga</button><button class="sport" data-league="2"><span class="emoji">🏆</span>Champions League</button><button class="sport" data-league="f1"><span class="emoji">🏎️</span>Formula 1</button></div>
     <section class="panel reminders-panel"><div class="panel-title"><h3>MY REMINDERS</h3><div style="display:flex;align-items:center;gap:10px"><span class="tag-upcoming" id="reminderCount">0 SAVED</span><button class="notify-btn" id="enableNotifications">ENABLE ALERTS</button></div></div><p class="notify-state" id="notifyState">Browser alerts are off.</p><div class="reminders-list" id="remindersList"><span class="no-reminders">Tap “REMIND ME” on an upcoming match to save it here.</span></div></section>
     <div class="content-grid"><section id="matchesSection"><div class="section-head"><div><h2 id="matchHeading">LIVE & UPCOMING</h2><p id="matchSub">Don't miss a moment</p></div><button class="view-all" id="resetFilter">VIEW ALL &nbsp;→</button></div><div class="matches" id="matches"></div></section>
       <aside class="side-col"><section class="panel player-panel" id="player"><div class="panel-title"><h3>ARENA PLAYER</h3><span class="tag-live">● DEMO</span></div><div class="player-box"><button class="play" aria-label="Play demo stream">▶</button></div><p class="player-note" id="playerNote">Select a match to see its authorized stream options.</p><div class="player-controls"><select id="streamSelect" aria-label="Select stream"><option>Sample stream · preview only</option><option>Authorized feed placeholder</option></select><button id="selectStream">SELECT</button></div></section>
       <section class="panel"><div class="panel-title"><h3>FEATURED CHANNELS</h3><a href="#" id="showChannels">ALL CHANNELS →</a></div><div class="channel"><div class="channel-logo">LA<br>1</div><div class="channel-info"><strong>LiveArena One</strong><small>Football · Main Event</small></div><span class="onair">● ON AIR</span></div><div class="channel"><div class="channel-logo">LA<br>2</div><div class="channel-info"><strong>LiveArena Courtside</strong><small>Basketball · Courts</small></div><span class="onair">● ON AIR</span></div><div class="channel"><div class="channel-logo">LA<br>3</div><div class="channel-info"><strong>LiveArena Cricket</strong><small>Cricket · Highlights</small></div><span style="color:#999;font-size:9px">SAMPLE</span></div></section></aside></div>
-    <div class="disclaimer">Scores and fixtures are provided by API-Football. LiveArena does not provide match video. Watch options are placeholders and require an authorized broadcast source.</div>
+    <div class="disclaimer">Football scores and fixtures and Formula 1 race schedules are provided by API-Sports. LiveArena does not provide match video. Watch options are placeholders and require an authorized broadcast source.</div>
     <footer class="footer"><span>© 2026 LiveArena · Your home for matchday</span><span>Match data refreshes about once an hour on the free API plan</span></footer>
   </main>
 </div>
-<div class="admin" id="admin"><div class="admin-panel"><div class="admin-top"><h2>ADMIN DASHBOARD</h2><button class="close" id="closeAdmin">✕</button></div><p class="admin-blurb">Only the site owner can sign in. Matches you add here are saved for all visitors.</p><div id="adminLogin"><form class="admin-form" id="adminLoginForm"><label>YOUR PRIVATE ADMIN PASSWORD</label><input required name="password" type="password" autocomplete="current-password" placeholder="Enter your password"><button class="primary">SIGN IN</button><div id="loginNotice" class="notice"></div></form></div><div id="adminTools" hidden><button class="close" id="adminLogout">SIGN OUT</button><div class="admin-metrics"><div class="metric"><strong id="metricLive">0</strong><small>LIVE MATCHES</small></div><div class="metric"><strong id="metricUpcoming">0</strong><small>UPCOMING</small></div><div class="metric"><strong>4</strong><small>COMPETITIONS</small></div></div><form class="admin-form" id="addForm"><label>HOME TEAM</label><input required name="home" maxlength="80" placeholder="e.g. Real Madrid"><label>AWAY TEAM</label><input required name="away" maxlength="80" placeholder="e.g. Barcelona"><label>COMPETITION</label><select name="leagueId"><option value="140">LaLiga</option><option value="2">UEFA Champions League</option><option value="253">MLS</option><option value="307">Saudi Pro League</option></select><label>MATCH DATE AND TIME</label><input required name="date" type="datetime-local"><button class="primary">＋ &nbsp; ADD MATCH FOR EVERYONE</button><div id="notice" class="notice"></div></form><h3 style="margin-top:22px">YOUR ADDED MATCHES</h3><div id="adminMatchList" class="reminders-list">Loading…</div></div><div class="disclaimer">Video sources must be officially authorized. Keep this password private.</div></div></div>
+<div class="admin" id="admin"><div class="admin-panel"><div class="admin-top"><h2>ADMIN DASHBOARD</h2><button class="close" id="closeAdmin">✕</button></div><p class="admin-blurb">Only the site owner can sign in. Matches you add here are saved for all visitors.</p><div id="adminLogin"><form class="admin-form" id="adminLoginForm"><label>YOUR PRIVATE ADMIN PASSWORD</label><input required name="password" type="password" autocomplete="current-password" placeholder="Enter your password"><button class="primary">SIGN IN</button><div id="loginNotice" class="notice"></div></form></div><div id="adminTools" hidden><button class="close" id="adminLogout">SIGN OUT</button><div class="admin-metrics"><div class="metric"><strong id="metricLive">0</strong><small>LIVE MATCHES</small></div><div class="metric"><strong id="metricUpcoming">0</strong><small>UPCOMING</small></div><div class="metric"><strong>5</strong><small>COMPETITIONS</small></div></div><form class="admin-form" id="addForm"><label>HOME TEAM</label><input required name="home" maxlength="80" placeholder="e.g. Real Madrid"><label>AWAY TEAM</label><input required name="away" maxlength="80" placeholder="e.g. Barcelona"><label>COMPETITION</label><select name="leagueId"><option value="140">LaLiga</option><option value="2">UEFA Champions League</option><option value="253">MLS</option><option value="307">Saudi Pro League</option></select><label>MATCH DATE AND TIME</label><input required name="date" type="datetime-local"><button class="primary">＋ &nbsp; ADD MATCH FOR EVERYONE</button><div id="notice" class="notice"></div></form><h3 style="margin-top:22px">YOUR ADDED MATCHES</h3><div id="adminMatchList" class="reminders-list">Loading…</div></div><div class="disclaimer">Video sources must be officially authorized. Keep this password private.</div></div></div>
 <script>
   const API_URL = "https://rough-meadow-9399.cheedellanikhilesh7.workers.dev/fixtures";
+  const F1_URL = "https://rough-meadow-9399.cheedellanikhilesh7.workers.dev/f1-races";
   const ADMIN_URL = "https://rough-meadow-9399.cheedellanikhilesh7.workers.dev/admin";
   let adminToken = sessionStorage.getItem("livearena-admin-token") || "";
   const LEAGUE_IDS = new Set(["2", "140", "253", "307"]);
   const LIVE_CODES = new Set(["1H", "HT", "2H", "ET", "BT", "P", "LIVE"]);
-  let apiFixtures = [], demoFixtures = [], fixtures = [];
+  let apiFixtures = [], demoFixtures = [], fixtures = [], f1Fixtures = [], f1Loading = true, f1Error = "";
   try {
     const saved = JSON.parse(localStorage.getItem("livearena-fixtures") || "[]");
     if (Array.isArray(saved)) demoFixtures = saved.filter(m => LEAGUE_IDS.has(String(m.leagueId)));
@@ -54,6 +55,7 @@
   function rebuildFixtures() { fixtures = [...apiFixtures, ...demoFixtures]; }
   let leagueFilter = "All", viewFilter = "home";
   const matchesEl = document.getElementById("matches");
+  let visibleFixtures = [];
   let reminders = [];
   const isLiveReminder = r => /^\d+\s*['’′]/.test(r.time || "") || fixtures.some(m => m.home === r.home && m.away === r.away && m.status === "live");
   try {
@@ -95,6 +97,21 @@
       homeLogo: item.homeLogo, awayLogo: item.awayLogo,
       h: "⚽", a: "⚽", status, statusCode: code, score, time,
       date: item.date, channel: "Authorized stream placeholder"
+    };
+  }
+  function apiF1Event(item) {
+    const code = String(item.status || "").toLowerCase();
+    const status = code.includes("live") || code === "in progress" ? "live"
+      : code.includes("finished") || code.includes("completed") || code === "ft" ? "finished" : "upcoming";
+    const date = new Date(item.date);
+    const time = Number.isNaN(date.getTime()) ? "Time to be announced" : new Intl.DateTimeFormat("en-IN", {
+      timeZone: "Asia/Kolkata", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit"
+    }).format(date);
+    return {
+      sport: "Formula 1", leagueId: "f1", league: "Formula 1 · " + (item.type || "Race weekend"),
+      home: item.grandPrix || "Formula 1 event", away: item.circuit || item.city || "Circuit to be announced",
+      h: "🏁", a: "🏎️", status, score: "", time, date: item.date, channel: "Formula 1 schedule",
+      country: item.country || ""
     };
   }
   const alertTimers = new Map();
@@ -147,34 +164,36 @@
   }
   function render() {
     const q = document.getElementById("search").value.trim().toLowerCase();
-    const list = fixtures.filter(m =>
-      (leagueFilter === "All" || String(m.leagueId) === leagueFilter) &&
+    const source = leagueFilter === "f1" ? f1Fixtures : fixtures;
+    const list = source.filter(m =>
+      (leagueFilter === "All" || (leagueFilter === "f1" ? m.sport === "Formula 1" : String(m.leagueId) === leagueFilter)) &&
       (viewFilter === "home" || (viewFilter === "live" ? m.status === "live" : viewFilter === "upcoming" ? m.status === "upcoming" : true)) &&
-      (!q || (m.home + " " + m.away + " " + m.league).toLowerCase().includes(q))
+      (!q || (m.home + " " + m.away + " " + m.league + " " + (m.country || "")).toLowerCase().includes(q))
     );
-    matchesEl.innerHTML = list.length ? list.map(m => {
-      const index = fixtures.indexOf(m);
+    visibleFixtures = list;
+    matchesEl.innerHTML = list.length ? list.map((m, index) => {
+      const isF1 = m.sport === "Formula 1";
       const reminded = m.status === "upcoming" && reminders.some(r => r.home === m.home && r.away === m.away);
       const statusClass = m.status === "live" ? "tag-live" : m.status === "upcoming" ? "tag-upcoming" : "tag-finished";
       const statusText = m.status === "live" ? "● LIVE" : m.status === "upcoming" ? "◷ UPCOMING" : "● " + (m.time || "FINAL");
-      const action = m.status === "live" ? "▶ WATCH" : m.status === "finished" ? "FINAL" : reminded ? "✓ REMINDED" : "◷ REMIND ME";
-      const reminderAttr = m.status === "upcoming" ? 'data-remind="' + index + '"' : "";
+      const action = isF1 ? (m.status === "finished" ? "RACE FINISHED" : "RACE INFO") : m.status === "live" ? "▶ WATCH" : m.status === "finished" ? "FINAL" : reminded ? "✓ REMINDED" : "◷ REMIND ME";
+      const reminderAttr = !isF1 && m.status === "upcoming" ? 'data-remind="' + index + '"' : "";
       return '<article class="match" data-index="' + index + '">' +
         '<div class="match-top"><span class="league">' + leagueIcon(Number(m.leagueId)) + " &nbsp; " + escapeHtml(m.league) + '</span><span class="' + statusClass + '">' + statusText + '</span></div>' +
         '<div class="teams"><div class="team"><div class="crest">' + logoHtml(m.homeLogo, m.h) + '</div><div class="team-name">' + escapeHtml(m.home) + '</div></div>' +
         '<div class="' + (m.score ? "score" : "vs") + '">' + (m.score ? escapeHtml(m.score) : "VS") + '</div>' +
         '<div class="team"><div class="crest">' + logoHtml(m.awayLogo, m.a) + '</div><div class="team-name">' + escapeHtml(m.away) + '</div></div></div>' +
         '<div class="match-foot"><span>' + escapeHtml(m.time) + '</span><button class="watch ' + (reminded ? "reminded" : "") + '" ' + reminderAttr + (m.status === "finished" ? " disabled" : "") + '>' + action + '</button></div></article>';
-    }).join("") : '<div class="empty">' + (document.getElementById("dataStatus").textContent.indexOf("Loading") >= 0 ? "Loading today’s matches…" : "No matches for this competition today. Try another competition or check back later.") + '</div>';
+    }).join("") : '<div class="empty">' + (leagueFilter === "f1" ? (f1Loading ? "Loading the Formula 1 calendar…" : f1Error || "No Formula 1 events found for this season yet.") : document.getElementById("dataStatus").textContent.indexOf("Loading") >= 0 ? "Loading today’s matches…" : "No matches for this competition today. Try another competition or check back later.") + '</div>';
     document.getElementById("matchHeading").textContent = viewFilter === "live" ? "LIVE NOW" : viewFilter === "upcoming" ? "UPCOMING MATCHES" : "LIVE & UPCOMING";
     document.getElementById("metricLive").textContent = fixtures.filter(m => m.status === "live").length;
     document.getElementById("metricUpcoming").textContent = fixtures.filter(m => m.status === "upcoming").length;
     matchesEl.querySelectorAll(".match").forEach(card => {
-      card.onclick = e => { if (e.target.closest("[data-remind]")) return; selectMatch(fixtures[+card.dataset.index]); };
+      card.onclick = e => { if (e.target.closest("[data-remind]")) return; selectMatch(visibleFixtures[+card.dataset.index]); };
     });
     matchesEl.querySelectorAll("[data-remind]").forEach(b => b.onclick = e => {
       e.stopPropagation();
-      const m = fixtures[+b.dataset.remind], i = reminders.findIndex(r => r.home === m.home && r.away === m.away);
+      const m = visibleFixtures[+b.dataset.remind], i = reminders.findIndex(r => r.home === m.home && r.away === m.away);
       if (i >= 0) reminders.splice(i, 1);
       else reminders.push({ home: m.home, away: m.away, time: m.time, date: m.date });
       saveReminders(); render();
@@ -202,6 +221,24 @@
     } catch {
       dataStatus.textContent = "Match data unavailable · try Refresh later";
       render();
+    }
+    loadF1Fixtures();
+  }
+  async function loadF1Fixtures() {
+    f1Loading = true;
+    if (leagueFilter === "f1") render();
+    try {
+      const response = await fetch(F1_URL, { cache: "no-store" });
+      const data = await response.json();
+      if (!response.ok || data.error) throw new Error("Formula 1 data isn’t available yet. Check API-Sports Formula 1 access and try Refresh.");
+      f1Fixtures = (data.races || []).map(apiF1Event);
+      f1Error = "";
+    } catch (error) {
+      f1Fixtures = [];
+      f1Error = error.message || "Formula 1 data is temporarily unavailable. Try Refresh later.";
+    } finally {
+      f1Loading = false;
+      if (leagueFilter === "f1") render();
     }
   }
   document.getElementById("sports").onclick = e => {
@@ -253,12 +290,13 @@
   }
   document.getElementById("adminLoginForm").onsubmit = async event => {
     event.preventDefault();
-    const notice = document.getElementById("loginNotice"), password = new FormData(event.currentTarget).get("password");
+    const form = event.currentTarget;
+    const notice = document.getElementById("loginNotice"), password = new FormData(form).get("password");
     notice.classList.remove("show");
     try {
       const result = await adminRequest("/login", { method: "POST", body: JSON.stringify({ password }) });
       adminToken = result.token; sessionStorage.setItem("livearena-admin-token", adminToken);
-      event.currentTarget.reset(); showAdminTools(true); await loadAdminMatches();
+      form.reset(); showAdminTools(true); await loadAdminMatches();
     } catch (error) { notice.textContent = error.message; notice.classList.add("show"); }
   };
   document.getElementById("adminLogout").onclick = () => { adminToken = ""; sessionStorage.removeItem("livearena-admin-token"); showAdminTools(false); };
